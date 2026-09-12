@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIZ Studies - Tài nguyên TRIZ chọn lọc bằng tiếng Việt</title>
+    <meta name="description" content="Hệ sinh thái TRIZ Studies, nơi cung cấp tài nguyên chất lượng nhất về TRIZ cho người Việt Nam: Tài liệu học TRIZ, Visual TRIZ Lab, MATRIZ Wiki, Tra cứu ma trận mâu thuẫn TRIZ (39/45/50 thông số), và TRIZ Workbench App, công cụ TRIZ đầy đủ nhất. Trang web do Doãn Minh Đăng xây dựng. Thông tin và tri thức TRIZ bằng tiếng Việt được đóng góp chủ yếu bởi hai chuyên gia TRIZ: TS. Doãn Minh Đăng và TS. Ngô Thanh Liêm.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Crispy Dark Mode Palette (Default) */
+            --bg-base: #060911;
+            --bg-grid-color: rgba(255, 255, 255, 0.035);
+            --bg-surface: rgba(13, 19, 34, 0.85);
+            --bg-card: #0d1322;
+            --bg-card-hover: #131c33;
+            
+            --border-crisp: rgba(255, 255, 255, 0.09);
+            --border-crisp-hover: rgba(52, 211, 153, 0.6);
+
+            /* Highlighted Shiny Green Card Borders for Night Theme */
+            --card-border: rgba(52, 211, 153, 0.45);
+            --card-border-hover: #34d399;
+            --card-shadow-hover: 0 12px 32px -4px rgba(52, 211, 153, 0.35);
+
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --brand-emerald: #10b981;
+            --brand-mint: #34d399;
+            --brand-cyan: #06b6d4;
+            --brand-purple: #8b5cf6;
+            --brand-amber: #f59e0b;
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+
+            --shadow-crisp: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f8fafc;
+            --bg-grid-color: rgba(15, 23, 42, 0.04);
+            --bg-surface: rgba(255, 255, 255, 0.9);
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            
+            --border-crisp: #cbd5e1;
+            --border-crisp-hover: #047857;
+
+            /* Dark Green Card Borders for Day Theme */
+            --card-border: #047857;
+            --card-border-hover: #064e3b;
+            --card-shadow-hover: 0 12px 32px -4px rgba(4, 120, 87, 0.25);
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        /* Pulse Indicator */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--brand-mint);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        [data-theme="light"] .pulse-dot {
+            background-color: #047857;
+        }
+
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-mint);
+            animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        [data-theme="light"] .pulse-dot::after {
+            border-color: #047857;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.7); opacity: 0.8; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        /* Sticky Header Bar */
+        header {
+            padding: 16px 0;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-crisp);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--brand-emerald), #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .logo-text span {
+            background: linear-gradient(135deg, var(--brand-mint), var(--brand-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        [data-theme="light"] .logo-text span {
+            background: linear-gradient(135deg, #047857, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Center Header Text Badge */
+        .header-center-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            color: var(--brand-mint);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            box-shadow: var(--shadow-crisp);
+        }
+
+        [data-theme="light"] .header-center-badge {
+            color: #047857;
+        }
+
+        @media (max-width: 868px) {
+            .header-center-badge {
+                display: none;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lang-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            color: var(--brand-mint);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        [data-theme="light"] .lang-badge {
+            color: #047857;
+        }
+
+        .lang-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--brand-mint);
+            box-shadow: 0 0 8px var(--brand-mint);
+        }
+
+        [data-theme="light"] .lang-badge-dot {
+            background-color: #047857;
+            box-shadow: none;
+        }
+
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--card-border-hover);
+            transform: scale(1.06);
+            color: var(--brand-mint);
+        }
+
+        [data-theme="light"] .theme-toggle-btn:hover {
+            color: #047857;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 48px 0 32px;
+        }
+
+        .hero-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #34d399, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        [data-theme="light"] .hero-title span {
+            background: linear-gradient(135deg, #047857, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.18rem);
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Filter & Search Bar Controls */
+        .controls-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            color: var(--text-secondary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--card-border-hover);
+        }
+
+        .filter-btn.active {
+            background: var(--brand-emerald);
+            color: #ffffff;
+            border-color: var(--brand-emerald);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+        }
+
+        [data-theme="light"] .filter-btn.active {
+            background: #047857;
+            border-color: #047857;
+            box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 320px;
+            min-width: 240px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius-full);
+            padding: 9px 16px 9px 40px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.88rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--card-border-hover);
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15);
+        }
+
+        [data-theme="light"] .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Matrix Grid Architecture */
+        .matrix-section {
+            padding-bottom: 64px;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .matrix-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .matrix-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Crispy Matrix Cell Component */
+        .matrix-cell {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 28px 26px;
+            box-shadow: var(--shadow-crisp);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .matrix-cell:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--card-border-hover);
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .cell-top {
+            margin-bottom: 20px;
+        }
+
+        .cell-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .cell-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Category specific gradient icon themes */
+        .icon-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+        .icon-cyan { background: linear-gradient(135deg, #06b6d4, #0284c7); }
+        .icon-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .icon-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+        .cell-tag {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--brand-mint);
+            border: 1px solid var(--card-border);
+        }
+
+        [data-theme="light"] .cell-tag {
+            background: rgba(4, 120, 87, 0.08);
+            color: #047857;
+        }
+
+        .cell-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+
+        .cell-domain {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: var(--brand-mint);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        [data-theme="light"] .cell-domain {
+            color: #047857;
+        }
+
+        .cell-intro {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* Feature Micro-Badges */
+        .cell-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .feature-pill {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-crisp);
+            color: var(--text-secondary);
+        }
+
+        [data-theme="light"] .feature-pill {
+            background: #f1f5f9;
+            color: #475569;
+            border-color: #cbd5e1;
+        }
+
+        /* Action Link Footer */
+        .cell-action {
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-crisp);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--brand-mint);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] .cell-action {
+            color: #047857;
+        }
+
+        .cell-action svg {
+            transition: transform var(--transition);
+        }
+
+        .matrix-cell:hover .cell-action {
+            color: var(--text-primary);
+        }
+
+        .matrix-cell:hover .cell-action svg {
+            transform: translateX(6px);
+            color: var(--brand-mint);
+        }
+
+        [data-theme="light"] .matrix-cell:hover .cell-action svg {
+            color: #047857;
+        }
+
+        /* Empty state search message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 24px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 28px 0;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-crisp);
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .footer-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--brand-emerald);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header Bar -->
+    <header>
+        <div class="container header-wrapper">
+            <!-- Left: Brand Logo -->
+            <a href="https://trizstudies.org" class="logo" id="brand-logo">
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    TRIZ<span>STUDIES</span>
+                </div>
+            </a>
+
+            <!-- Middle: Đổi mới Sáng tạo cho mọi người -->
+            <div class="header-center-badge">
+                <span class="pulse-dot"></span>
+                <span>Đổi mới Sáng tạo cho mọi người</span>
+            </div>
+
+            <!-- Right: Actions (Language + Theme Toggle) -->
+            <div class="header-actions">
+                <div class="lang-badge">
+                    <span class="lang-badge-dot"></span>
+                    VIỆT NAM
+                </div>
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Đổi giao diện">
+                    <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun-icon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">Hệ sinh thái <span>TRIZ Studies</span></h1>
+            <p class="hero-subtitle">
+                Tài nguyên của TRIZ Studies để mọi người tìm hiểu, thực hành và ứng dụng cách thức giải quyết vấn đề nhằm sáng tạo và đổi mới.
+            </p>
+        </section>
+
+        <!-- Controls Section (Filter Tabs + Search) -->
+        <section class="controls-section">
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">Tất cả (6)</button>
+                <button class="filter-btn" data-filter="learn">Học tập & Wiki</button>
+                <button class="filter-btn" data-filter="matrix">Tra cứu & Lab</button>
+                <button class="filter-btn" data-filter="app">Workbench App</button>
+            </div>
+
+            <div class="search-box">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm công cụ, thuật ngữ...">
+            </div>
+        </section>
+
+        <!-- Matrix Cards Grid Section -->
+        <section class="matrix-section">
+            <div class="matrix-grid" id="matrix-grid">
+
+                <!-- Cell 1: TRIZ 5.0 Learn -->
+                <a href="https://learn.trizstudies.org/triz40/" class="matrix-cell" target="_blank" rel="noopener" data-category="learn" id="cell-triz40">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-emerald">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    <text x="12" y="9.5" font-size="8" font-weight="800" font-family="'Plus Jakarta Sans', sans-serif" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="central">40</text>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Học Tập</span>
+                        </div>
+                        <h2 class="cell-title">40 nguyên tắc sáng tạo TRIZ</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            learn.trizstudies.org/triz40
+                        </div>
+                        <p class="cell-intro">
+                            Khám phá 40 nguyên tắc sáng tạo với các bộ ví dụ chuyên ngành Kỹ thuật, Phần mềm, Kinh doanh, Dịch vụ, Giáo dục, Tài chính, và Xã hội. Tích hợp so sánh các nguyên tắc và tra bảng mâu thuẫn.
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">40 Nguyên tắc</span>
+                            <span class="feature-pill">Ví dụ theo ngành</span>
+                            <span class="feature-pill">Tra cứu nhanh</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Tìm hiểu 40 nguyên tắc</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- Cell 2: TRIZ Lab 5.0 -->
+                <a href="https://learn.trizstudies.org/trizlab40/" class="matrix-cell" target="_blank" rel="noopener" data-category="matrix" id="cell-trizlab40">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-cyan">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 .8 2.5 2 2 0 0 0 1.2.5h10.5a2 2 0 0 0 2-2 2 2 0 0 0-.25-1L14 9.31V2"></path>
+                                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                                    <line x1="7" y1="16" x2="17" y2="16"></line>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Lab Trực Quan</span>
+                        </div>
+                        <h2 class="cell-title">TRIZ Lab - trẻ em học sáng tạo</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            learn.trizstudies.org/trizlab40
+                        </div>
+                        <p class="cell-intro">
+                            Phòng lab tương tác trực quan thân thiện cho trẻ em và người mới bắt đầu tìm hiểu 40 nguyên tắc sáng tạo TRIZ. Đồ họa tương tác, hình minh họa sinh động về cùng giao diện song ngữ tiếng Việt - tiếng Anh.
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">Đồ họa tương tác</span>
+                            <span class="feature-pill">Ví dụ sáng tạo</span>
+                            <span class="feature-pill">STEM / STEAM</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Vào phòng Lab</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- Cell 3: TRIZ Wiki -->
+                <a href="https://wiki.trizstudies.org" class="matrix-cell" target="_blank" rel="noopener" data-category="learn" id="cell-wiki">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-purple">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Cẩm nang Wiki</span>
+                        </div>
+                        <h2 class="cell-title">Cẩm nang TRIZ Wiki</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            wiki.trizstudies.org
+                        </div>
+                        <p class="cell-intro">
+                            Cẩm nang TRIZ chuẩn hóa theo phương pháp MATRIZ (Hiệp hội TRIZ quốc tế) qua 3 bước chính: Nhận diện vấn đề, Giải quyết vấn đề và Thẩm định giải pháp. Nội dung gồm cả phiên bản tiếng Việt và tiếng Anh.
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">Cẩm nang</span>
+                            <span class="feature-pill">Chuẩn MATRIZ</span>
+                            <span class="feature-pill">Từ điển Thuật ngữ</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Khám phá Wiki</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- Cell 4: Matran TRIZ -->
+                <a href="https://matran.trizstudies.org" class="matrix-cell" target="_blank" rel="noopener" data-category="matrix" id="cell-matran">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-amber">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                                    <line x1="15" y1="3" x2="15" y2="21"></line>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Ma Trận Mâu Thuẫn</span>
+                        </div>
+                        <h2 class="cell-title">Tra cứu ma trận TRIZ</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            matran.trizstudies.org
+                        </div>
+                        <p class="cell-intro">
+                            Ứng dụng web với các công cụ tra cứu dữ liệu mở để dùng nhanh: Ma trận mâu thuẫn 39, 45, 50 thông số; dữ liệu Hiệu ứng khoa học gồm tác động về Chức năng, Thông số, Biến đổi Năng lượng; và Các nguyên tắc sáng tạo.
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">Ma trận 39 thông số</span>
+                            <span class="feature-pill">Ma trận 45 thông số</span>
+                            <span class="feature-pill">Ma trận 50 thông số</span>
+                            <span class="feature-pill">Hiệu ứng khoa học</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Tra cứu dữ liệu mở TRIZ</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- Cell 5: TRIZ Solver App -->
+                <a href="https://app.trizstudies.org" class="matrix-cell" target="_blank" rel="noopener" data-category="app" id="cell-app">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-purple">
+                                <svg width="22" height="22" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(0, 7.5)">
+                                        <path d="M40,10 L45,0 L55,0 L60,10 L70,15 L78,8 L85,15 L78,23 L83,33 L93,38 L93,48 L83,53 L78,63 L85,70 L78,77 L70,70 L60,75 L55,85 L45,85 L40,75 L30,70 L22,77 L15,70 L22,63 L17,53 L7,48 L7,38 L17,33 L22,23 L15,15 L22,8 L30,15 Z"></path>
+                                        <path d="M30,42.5 L65,42.5 M50,27.5 L65,42.5 L50,57.5"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Workbench App</span>
+                        </div>
+                        <h2 class="cell-title">TRIZ Solver App</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            app.trizstudies.org
+                        </div>
+                        <p class="cell-intro">
+                            Ứng dụng web toàn diện quản lý dự án đổi mới sáng tạo. Tận dụng sự hỗ trợ thông minh khi áp dụng các phương pháp TRIZ nâng cao cho tất cả các bước của quá trình giải quyết vấn đề: phân tích vấn đề (CECA, chức năng hệ thống, màn hình 9 hệ), tìm kiếm giải pháp (xác định các loại mâu thuẫn, dùng nguyên tắc sáng tạo, nguyên tắc phân chia, 76 giải pháp chuẩn), đánh giá giải pháp (biểu đồ mạng nhện, so sánh 4 ô), và gọi hỗ trợ của AI chuyên dụng (trí tuệ nhân tạo dựa trên mô hình ngôn ngữ lớn LLM).
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">5 Whys</span>
+                            <span class="feature-pill">CECA</span>
+                            <span class="feature-pill">RCA</span>
+                            <span class="feature-pill">ARIZ</span>
+                            <span class="feature-pill">Mindmap</span>
+                            <span class="feature-pill">Kết quả lý tưởng cuối cùng</span>
+                            <span class="feature-pill">Mâu thuẫn kỹ thuật</span>
+                            <span class="feature-pill">Mâu thuẫn vật lý</span>
+                            <span class="feature-pill">Ma trận mâu thuẫn</span>
+                            <span class="feature-pill">Nguyên tắc sáng tạo</span>
+                            <span class="feature-pill">Nguyên tắc phân chia</span>
+                            <span class="feature-pill">76 giải pháp chuẩn</span>
+                            <span class="feature-pill">Tư duy hệ thống</span>
+                            <span class="feature-pill">Màn hình 9 hệ</span>
+                            <span class="feature-pill">Quy luật phát triển hệ thống</span>
+                            <span class="feature-pill">Eisenhower Matrix</span>
+                            <span class="feature-pill">Biểu đồ mạng nhện</span>
+                            <span class="feature-pill">Vẽ flowchart, diagram</span>
+                            <span class="feature-pill">Trình bày giải pháp</span>
+                            <span class="feature-pill">Lập kế hoạch, product roadmap</span>
+                            <span class="feature-pill">Quản lý dự án</span>
+                            <span class="feature-pill">Quy trình hướng dẫn TRIZ</span>
+                            <span class="feature-pill">Computer-assisted TRIZ</span>
+                            <span class="feature-pill">Cộng tác Human - AI</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Khởi chạy TRIZ App</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- Cell 6: TRIZ Resources Hub -->
+                <a href="https://rosetta.vn/triz" class="matrix-cell" target="_blank" rel="noopener" data-category="learn" id="cell-hub">
+                    <div class="cell-top">
+                        <div class="cell-header">
+                            <div class="cell-icon-box icon-cyan">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                            </div>
+                            <span class="cell-tag">Trung Tâm Tài Nguyên</span>
+                        </div>
+                        <h2 class="cell-title">TRIZ Resources Hub</h2>
+                        <div class="cell-domain">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            rosetta.vn/triz
+                        </div>
+                        <p class="cell-intro">
+                            Cổng tài nguyên tổng hợp, cập nhật sự phát triển của TRIZ, tài liệu tham khảo và định hướng lộ trình học tập, áp dụng TRIZ dành cho học sinh, kỹ sư và doanh nghiệp để đổi mới sáng tạo. Cái bài viết về TRIZ tiếng Việt và có dịch sang tiếng Anh.
+                        </p>
+                        <div class="cell-features">
+                            <span class="feature-pill">Tài liệu tổng hợp</span>
+                            <span class="feature-pill">Lộ trình học tập</span>
+                            <span class="feature-pill">Các khóa học TRIZ</span>
+                            <span class="feature-pill">Các công cụ TRIZ</span>
+                            <span class="feature-pill">Phân tích chuyên sâu</span>
+                            <span class="feature-pill">Nghiên cứu về TRIZ</span>
+                            <span class="feature-pill">Lịch sử ngành TRIZ</span>
+                            <span class="feature-pill">Tin tức về TRIZ</span>
+                            <span class="feature-pill">Sự kiện TRIZ thế giới</span>
+                            <span class="feature-pill">TRIZ ở Việt Nam</span>
+                        </div>
+                    </div>
+                    <div class="cell-action">
+                        <span>Xem tài nguyên TRIZ</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </a>
+
+                <!-- No Search Results Found Message -->
+                <div class="no-results" id="no-results">
+                    <h3>Không tìm thấy module phù hợp</h3>
+                    <p>Thử tìm kiếm với từ khóa khác như "ARIZ", "Wiki", "Ma trận" hoặc chọn lại danh mục.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-wrapper">
+            <div>&copy; 2018-2026 TRIZ Studies. Chúng tôi cung cấp tài nguyên ở đây để hỗ trợ mọi người tiếp cận TRIZ, mọi nhu cầu sao chép tài liệu cần được sự cho phép của TRIZ Studies.</div>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Switcher with LocalStorage Memory
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+            const htmlElement = document.documentElement;
+
+            const savedTheme = localStorage.getItem('triz_theme') || 'dark';
+            setTheme(savedTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+            });
+
+            function setTheme(theme) {
+                htmlElement.setAttribute('data-theme', theme);
+                localStorage.setItem('triz_theme', theme);
+                if (theme === 'light') {
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden');
+                } else {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            }
+
+            // Real-time Search & Filter Logic
+            const searchInput = document.getElementById('search-input');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.matrix-cell');
+            const noResults = document.getElementById('no-results');
+
+            let currentFilter = 'all';
+            let currentSearch = '';
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    filterCards();
+                });
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value.toLowerCase().trim();
+                filterCards();
+            });
+
+            function filterCards() {
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const textContent = card.textContent.toLowerCase();
+
+                    const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
+                    const matchesSearch = currentSearch === '' || textContent.includes(currentSearch);
+
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
